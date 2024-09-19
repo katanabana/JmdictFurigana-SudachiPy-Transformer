@@ -32,15 +32,22 @@ to:
 
 ```
 {
-    str((surface, to_katakana(reading))):
-    [[part_surface, to_katakana(part_reading)], ...],
+    surface: {
+              to_katakana(reading_1): 
+                    [[surface_part_1, to_katakana(reading_1_part_1)], [surface_part_2, to_katakana(reading_1_part_2)], ...],
+              to_katakana(reading_2): 
+                    [[surface_part_1, to_katakana(reading_2_part_1)], [surface_part_2, to_katakana(reading_2_part_2)], ...],
+              ...
+              },
     ...
 }
 ```
 
-For items that have the same (surface, to_katakana(surface_reading)) furigana with the greatest number of parts (maximum length) is chosen.
+For items that have the same (surface, to_katakana(surface_reading)) furigana with the greatest number of parts (maximum
+length) is chosen.
 
-Readings are transformed to katakana for making them compatible with `sudachipy.Morpheme` since `morpheme.reading_form()` is always written in katakana.
+Readings are transformed to katakana for making them compatible with `sudachipy.Morpheme`
+since `morpheme.reading_form()` is always written in katakana.
 
 ## Dictionaries usage
 
@@ -56,8 +63,7 @@ path = 'path/to/transformed/dictionary/file.json'
 with open(path, encoding='utf-8-sig') as file:
     dictionary = load(file)
     for morpheme in morphemes:
-        key = morpheme.surface(), morpheme.reading_form()
-        parts = dictionary[str(key)]
+        parts = dictionary[morpheme.surface()][morpheme.reading_form()]
         print(parts)
 ```
 
